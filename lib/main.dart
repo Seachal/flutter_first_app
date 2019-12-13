@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+//引入包
+import 'package:english_words/english_words.dart';
 
 //主函数（main）使用了 (=>) 符号，这是 Dart 中单行函数或方法的简写。
 void main() => runApp(MyApp());
@@ -6,6 +8,10 @@ void main() => runApp(MyApp());
 //该应用程序继承了 StatelessWidget，这将会使应用本身也成为一个 widget。
 // 在 Flutter 中，几乎所有都是 widget，包括对齐 (alignment)、填充 (padding) 和布局 (layout)。
 class MyApp extends StatelessWidget {
+
+//  final wordPair = WordPair.random();
+    final wordPair = WordPair.random();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
