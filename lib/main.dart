@@ -1,107 +1,3 @@
-//import 'package:flutter/material.dart';
-////引入包
-//import 'package:english_words/english_words.dart';
-//
-////主函数（main）使用了 (=>) 符号，这是 Dart 中单行函数或方法的简写。
-//void main() => runApp(MyApp());
-//
-////该应用程序继承了 StatelessWidget，这将会使应用本身也成为一个 widget。
-//// 在 Flutter 中，几乎所有都是 widget，包括对齐 (alignment)、填充 (padding) 和布局 (layout)。
-//class MyApp extends StatelessWidget {
-//
-////      var wordPair1 = WordPair.random();
-//    final wordPair = WordPair.random();
-//
-//  // This widget is the root of your application.
-//  @override
-//  Widget build(BuildContext context) {
-//    return MaterialApp(
-////      sca:  ":" 构造方法里面的冒号，表示的是可选参数
-//      title: 'Flutter Demo',
-//      theme: ThemeData(
-//        // This is the theme of your application.
-//        //
-//        // Try running your application with "flutter run". You'll see the
-//        // application has a blue toolbar. Then, without quitting the app, try
-//        // changing the primarySwatch below to Colors.green and then invoke
-//        // "hot reload" (press "r" in the console where you ran "flutter run",
-//        // or simply save your changes to "hot reload" in a Flutter IDE).
-//        // Notice that the counter didn't reset back to zero; the application
-//        // is not restarted.
-//        primarySwatch: Colors.blue,
-//      ),
-//      home: MyHomePage(title: 'Flutter Demo Home Page'),
-//    );
-//  }
-//}
-//
-//class MyHomePage extends StatefulWidget {
-////  sca:继承构造方法,  {Key key, this.title} 是名字可选参数
-//  MyHomePage({Key key, this.title}) : super(key: key);
-//
-//  // This widget is the home page of your application. It is stateful, meaning
-//  // that it has a State object (defined below) that contains fields that affect
-//  // how it looks.
-//
-//  // This class is the configuration for the state. It holds the values (in this
-//  // case the title) provided by the parent (in this case the App widget) and
-//  // used by the build method of the State. Fields in a Widget subclass are
-//  // always marked "final".
-//
-//  final String title;
-//
-//  @override
-//  _MyHomePageState createState() => _MyHomePageState();
-//}
-//
-//class _MyHomePageState extends State<MyHomePage> {
-//
-//
-////一个 widget 的主要工作是提供一个 build() 方法来描述如何根据其他较低级别的 widgets 来显示自己。
-//  @override
-//  Widget build(BuildContext context) {
-//    // This method is rerun every time setState is called, for instance as done
-//    // by the _incrementCounter method above.
-//    //
-//    // The Flutter framework has been optimized to make rerunning build methods
-//    // fast, so that you can just rebuild anything that needs updating rather
-//    // than having to individually change instances of widgets.
-////    Scaffold 是 Material 库中提供的一个 widget，它提供了默认的导航栏、标题和包含主屏幕 widget 树的 body 属性。 widget 树可以很复杂。
-//    return Scaffold(
-//      appBar: AppBar(
-//        // Here we take the value from the MyHomePage object that was created by
-//        // the App.build method, and use it to set our appbar title.
-//        title: Text(widget.title),
-//      ),
-//      body: Center(
-//        // Center is a layout widget. It takes a single child and positions it
-//        // in the middle of the parent.
-//        child: Column(
-//          // Column is also a layout widget. It takes a list of children and
-//          // arranges them vertically. By default, it sizes itself to fit its
-//          // children horizontally, and tries to be as tall as its parent.
-//          //
-//          // Invoke "debug painting" (press "p" in the console, choose the
-//          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-//          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-//          // to see the wireframe for each widget.
-//          //
-//          // Column has various properties to control how it sizes itself and
-//          // how it positions its children. Here we use mainAxisAlignment to
-//          // center the children vertically; the main axis here is the vertical
-//          // axis because Columns are vertical (the cross axis would be
-//          // horizontal).
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Text(
-//              'You have pushed the button this many times:',
-//            ),
-//          ],
-//        ),
-//      ),
-//    );
-//  }
-//}
 
 // Copyright 2018 The Flutter team. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
@@ -115,33 +11,56 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-//    final wordPair = WordPair.random();
-//    var wordPair = WordPair.random();// 定义为变量页可以用啊。
+
+
     return MaterialApp(
-      title: 'Welcome to Flutter',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Welcome to Flutter'),
-        ),
-        body: Center(
-//          child: Text(wordPair.asPascalCase),
-            child: RandomWords(),
-        ),
-      ),
+      title: 'Startup Name Generator',
+      home: RandomWords(),
     );
   }
 }
 
 class RandomWordsState extends State<RandomWords>{
+
+
+  final _suggestions = <WordPair>[];
+  final _biggerFont = const TextStyle(fontSize: 18.0);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
 
-      final wordPair = WordPair.random();
-      return Text(wordPair.asPascalCase);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Startup Name Generator'),
+      ),
+      body: _buildSuggestions(),
+    );
 
   }
 
+  Widget _buildSuggestions() {
+    return ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemBuilder: /*1*/ (context, i) {
+          if (i.isOdd) return Divider(); /*2*/
+
+          final index = i ~/ 2; /*3*/
+          if (index >= _suggestions.length) {
+            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+          }
+          return _buildRow(_suggestions[index]);
+        });
+  }
+
+  Widget _buildRow(WordPair pair) {
+    return ListTile(
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
+      ),
+    );
+  }
 
 
 }
@@ -152,10 +71,9 @@ class RandomWords extends StatefulWidget {
     return RandomWordsState();
   }
 
-//
-//  @override
-//  RandomWordsState createState() => RandomWordsState();
-
 }
+
+
+
 
 
