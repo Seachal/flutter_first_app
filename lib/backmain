@@ -36,7 +36,7 @@
 //}
 //
 //class MyHomePage extends StatefulWidget {
-////  sca:继承构造方法,  {Key key, this.title} 是名字可选参数
+////  sca:继承构造方法,  {Key key, this.title} 是名字可选参数，  
 //  MyHomePage({Key key, this.title}) : super(key: key);
 //
 //  // This widget is the home page of your application. It is stateful, meaning
